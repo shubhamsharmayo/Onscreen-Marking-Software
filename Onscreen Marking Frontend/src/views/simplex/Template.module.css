@@ -1,0 +1,16 @@
+.activeField {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(72, 141, 231, 0.2);
+  border: 2px solid rgb(28, 53, 197);
+  position: relative;
+  padding: 0px;
+}
+.notActive {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(4, 155, 37, 0.2);
+  border: 2px solid green;
+  position: relative;
+  padding: 0px;
+}
