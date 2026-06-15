@@ -6,7 +6,7 @@ The system automates the complete answer sheet evaluation lifecycle — from boo
 
 ---
 
-# 📚 Table of Contents
+# 📚 Table of Content
 
 - [Overview](#-overview)
 - [Problem Statement](#-problem-statement)
