@@ -276,7 +276,7 @@ const Booklets = () => {
 
     const subjectCode = currentBookletDetails?.folderName;
 
-    const BATCH_SIZE = 1; // 🔥 adjust (3–5 best)
+    const BATCH_SIZE = 10; // 🔥 adjust (3–5 best)
 
     // 🔹 helper to split into batches
     const chunkArray = (array, size) => {
@@ -319,57 +319,57 @@ const Booklets = () => {
         /* ===============================
    ✅ .NET API (parallel per batch)
 ================================= */
-        const dotnetRequests = batch
-          .filter((file) => file.type === "application/pdf")
-          .map(async (file) => {
-            try {
-              /* =====================================
-         1️⃣ GET LIMIT VALUE
-      ===================================== */
-              const limitResponse = await axios.get(
-                `${process.env.REACT_APP_API_URL}/api/tasks/subjectcode?subjectcode=${subjectCode}`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
-                }
-              );
+      //   const dotnetRequests = batch
+      //     .filter((file) => file.type === "application/pdf")
+      //     .map(async (file) => {
+      //       try {
+      //         /* =====================================
+      //    1️⃣ GET LIMIT VALUE
+      // ===================================== */
+      //         const limitResponse = await axios.get(
+      //           `${process.env.REACT_APP_API_URL}/api/tasks/subjectcode?subjectcode=${subjectCode}`,
+      //           {
+      //             headers: {
+      //               Authorization: `Bearer ${token}`,
+      //             },
+      //           }
+      //         );
 
-              // example response => 26
-              const limit = limitResponse?.data;
+      //         // example response => 26
+      //         const limit = limitResponse?.data;
 
-              /* =====================================
-         2️⃣ CREATE FORM DATA
-      ===================================== */
-              const form = new FormData();
-              form.append("file", file);
+      //         /* =====================================
+      //    2️⃣ CREATE FORM DATA
+      // ===================================== */
+      //         const form = new FormData();
+      //         form.append("file", file);
 
-              /* =====================================
-         3️⃣ HIT .NET API
-      ===================================== */
-              const response = await axios.post(
-                `${process.env.REACT_APP_BACKEND_URL}api/OmrProcessing/ExtractFils?SubjectId=${subjectCode}&limit=${limit}`,
-                form,
-                {
-                  headers: {
-                    accept: "*/*",
-                    "Content-Type": "multipart/form-data",
-                  },
-                }
-              );
+      //         /* =====================================
+      //    3️⃣ HIT .NET API
+      // ===================================== */
+      //         const response = await axios.post(
+      //           `${process.env.REACT_APP_BACKEND_URL}api/OmrProcessing/ExtractFils?SubjectId=${subjectCode}&limit=${limit}`,
+      //           form,
+      //           {
+      //             headers: {
+      //               accept: "*/*",
+      //               "Content-Type": "multipart/form-data",
+      //             },
+      //           }
+      //         );
 
-              console.log("DOTNET RESPONSE:", response.data);
+      //         console.log("DOTNET RESPONSE:", response.data);
 
-              return response.data;
-            } catch (error) {
-              console.error("DOTNET API ERROR:", error);
-            }
-          });
+      //         return response.data;
+      //       } catch (error) {
+      //         console.error("DOTNET API ERROR:", error);
+      //       }
+      //     });
 
         /* ===============================
          🚀 RUN BATCH
       =============================== */
-        await Promise.all([nodeRequest, ...dotnetRequests]);
+        await Promise.all([nodeRequest]);
       }
 
       toast.success("All batches uploaded successfully");

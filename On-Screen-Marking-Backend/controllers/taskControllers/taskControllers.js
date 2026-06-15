@@ -706,7 +706,7 @@ const assigningTaskWorkers = async (jobs) => {
 
       const questionPages = new Set(questionDef.page);
 
-      const limit = pLimit(22);
+      const limit = pLimit(20);
 
       await Promise.all(
         assignedPdfs.map((pdfDoc) =>
@@ -878,7 +878,11 @@ const assigningTask = async (req, res) => {
         assignedDate: { $gte: startOfDay, $lte: endOfDay },
       }).session(session);
 
+      console.log('user.maxBooklets', user.maxBooklets);
+      console.log('todayPending', todayPending);
+
       const availableToday = Math.max(0, user.maxBooklets - todayPending);
+      console.log('availableToday', availableToday);
       if (Number(bookletsToAssign) > availableToday) {
         throw new Error(
           `Daily limit exceeded for user ${user.email}. Available: ${availableToday}`,
